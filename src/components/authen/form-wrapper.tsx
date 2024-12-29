@@ -1,8 +1,10 @@
-import { css } from "@emotion/react";
-import { Col, Row, Space, Typography } from "antd";
-import { FC } from "react";
-import AuthFormTitle from "./form-title";
-import AuthFormDescription from "./form-desciption";
+import type { FC } from 'react';
+
+import { css } from '@emotion/react';
+import { Col, Row, Space, Typography } from 'antd';
+
+import AuthFormDescription from './form-desciption';
+import AuthFormTitle from './form-title';
 
 interface AuthFormWrapperProps {
     title?: string;
@@ -10,22 +12,24 @@ interface AuthFormWrapperProps {
 }
 
 const AuthFormWrapper: FC<AuthFormWrapperProps> = ({ title, description, children }) => {
-    return <Row justify="center" align="middle" css={styles} gutter={{ xs: 6 }}>
-        {
-            title && <Col className="title" span={24}>
-                <AuthFormTitle title={title} />
+    return (
+        <Row justify="center" align="middle" css={styles} gutter={{ xs: 6 }}>
+            {title && (
+                <Col className="title" span={24}>
+                    <AuthFormTitle title={title} />
+                </Col>
+            )}
+            {description && (
+                <Col className="description">
+                    <AuthFormDescription description={description} />
+                </Col>
+            )}
+            <Col className="form" span={24}>
+                {children}
             </Col>
-        }
-        {
-            description && <Col className="description">
-                <AuthFormDescription description={description} />
-            </Col>
-        }
-        <Col className="form" span={24}>
-            {children}
-        </Col>
-    </Row>
-}
+        </Row>
+    );
+};
 
 const styles = css(`
     max-width: 400px; 
@@ -51,6 +55,6 @@ const styles = css(`
             margin-top: 20px;
         }
     }
-`)
+`);
 
 export default AuthFormWrapper;
