@@ -109,34 +109,29 @@ const VerifyOtpResetPasswordPage: FC = () => {
                             </Form.Item>
 
                             <Form.Item>
-                                {timeCount === 0 ? (
-                                    <BaseButton
-                                        size="large"
-                                        className="auth-submit-button "
-                                        shape="round"
-                                        type="primary"
-                                        htmlType="button"
-                                        loading={isPendingResendOtp}
-                                        onClick={() => {
-                                            resendOtp({ email: localStorage.getItem('email') as string });
-                                            setTimeCount(OTP_EXPIRE_TIME);
-                                        }}
-                                    >
-                                        Resend OTP
-                                    </BaseButton>
-                                ) : (
-                                    <BaseButton
-                                        size="large"
-                                        className="auth-submit-button "
-                                        shape="round"
-                                        type="primary"
-                                        htmlType="submit"
-                                        loading={isPendingVerifyOtp}
-                                        disabled={timeCount === 0}
-                                    >
-                                        Verify OTP
-                                    </BaseButton>
-                                )}
+                                <BaseButton
+                                    style={{ display: 'block', textAlign: 'right' }}
+                                    type="link"
+                                    loading={isPendingResendOtp}
+                                    onClick={() => {
+                                        resendOtp({ email: localStorage.getItem('email') as string });
+                                        setTimeCount(OTP_EXPIRE_TIME);
+                                    }}
+                                >
+                                    Resend OTP
+                                </BaseButton>
+
+                                <BaseButton
+                                    size="large"
+                                    className="auth-submit-button "
+                                    shape="round"
+                                    type="primary"
+                                    htmlType="submit"
+                                    loading={isPendingVerifyOtp}
+                                    disabled={timeCount === 0}
+                                >
+                                    Verify OTP
+                                </BaseButton>
                             </Form.Item>
                         </Form>
                     </AuthFormWrapper>

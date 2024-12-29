@@ -1,3 +1,12 @@
+import type { FormProps, GetProps } from 'antd';
+import type { FC } from 'react';
+
+import { css } from '@emotion/react';
+import { Form, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import AuthFormWrapper from '@/components/authen/form-wrapper';
 import AuthPageLayout from '@/components/authen/layout';
 import AuthResultPage from '@/components/authen/result';
@@ -7,11 +16,6 @@ import { useOtpVerify, useResendOtp } from '@/hooks/mutate/auth/use-otp-verify';
 import { useMessage } from '@/hooks/use-message';
 import { SuccessfulIcon } from '@/utils/asset';
 import { PATHS } from '@/utils/paths';
-import { css } from '@emotion/react';
-import { Form, FormProps, GetProps, Input } from 'antd';
-import { FC, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 type OTPProps = GetProps<typeof Input.OTP>;
 
@@ -30,8 +34,7 @@ const OTPVerificationPage: FC = () => {
     const { mutate: verifyOtp, isPending: isPendingVerifyOtp } = useOtpVerify();
     const { mutate: resendOtp, isPending: isPendingResendOtp } = useResendOtp();
 
-        const { error } = useMessage();
-
+    const { error } = useMessage();
 
     const onFinish: FormProps<FieldType>['onFinish'] = async values => {
         verifyOtp(
@@ -60,6 +63,7 @@ const OTPVerificationPage: FC = () => {
             setTimeCount(prev => {
                 if (prev === 0) {
                     clearInterval(interval);
+
                     return 0;
                 }
 
@@ -101,34 +105,29 @@ const OTPVerificationPage: FC = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            {timeCount === 0 ? (
-                                <BaseButton
-                                    size="large"
-                                    className="auth-submit-button "
-                                    shape="round"
-                                    type="primary"
-                                    htmlType="button"
-                                    loading={isPendingResendOtp}
-                                    onClick={() => {
-                                        resendOtp({ email: localStorage.getItem('email') as string });
-                                        setTimeCount(OTP_EXPIRE_TIME);
-                                    }}
-                                >
-                                    Resend OTP
-                                </BaseButton>
-                            ) : (
-                                <BaseButton
-                                    size="large"
-                                    className="auth-submit-button "
-                                    shape="round"
-                                    type="primary"
-                                    htmlType="submit"
-                                    loading={isPendingVerifyOtp}
-                                    disabled={timeCount === 0}
-                                >
-                                    Verify OTP
-                                </BaseButton>
-                            )}
+                            <BaseButton
+                                style={{ display: 'block', textAlign: 'right' }}
+                                type="link"
+                                loading={isPendingResendOtp}
+                                onClick={() => {
+                                    resendOtp({ email: localStorage.getItem('email') as string });
+                                    setTimeCount(OTP_EXPIRE_TIME);
+                                }}
+                            >
+                                Resend OTP
+                            </BaseButton>
+
+                            <BaseButton
+                                size="large"
+                                className="auth-submit-button "
+                                shape="round"
+                                type="primary"
+                                htmlType="submit"
+                                loading={isPendingVerifyOtp}
+                                disabled={timeCount === 0}
+                            >
+                                Verify OTP
+                            </BaseButton>
                         </Form.Item>
                     </Form>
 
