@@ -1,14 +1,15 @@
-import { Breadcrumb, Button } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
+import { Breadcrumb, Button, Typography } from 'antd';
 import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+
 import TagXSvg from '/public/tag-x.svg';
-import { RightOutlined } from '@ant-design/icons';
 
 interface Props {
     title?: string;
 }
 
-const PageBreadcrumbs = ({title} : Props) => {
+const PageBreadcrumbs = ({ title }: Props) => {
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -22,13 +23,14 @@ const PageBreadcrumbs = ({title} : Props) => {
 
     const pathSnippets = splitPath.filter(i => i);
     const extraBreadcrumbItems = pathSnippets.map((_, index) => {
-        let url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+
         return {
             path: url,
             breadcrumbName: (
-                <Link to={url} onClick={() => setHistory(location.pathname)}>
+                <Typography.Title level={4} onClick={() => setHistory(location.pathname)}>
                     {title || url.split('/').splice(-1)?.[0]}
-                </Link>
+                </Typography.Title>
             ),
         };
     });
@@ -39,6 +41,7 @@ const PageBreadcrumbs = ({title} : Props) => {
                 path: '-1',
                 breadcrumbName: (
                     <Button
+                        style={{ marginTop: '5px' }}
                         size="small"
                         type="text"
                         icon={<img src={TagXSvg} alt="tag-x" />}
@@ -51,14 +54,15 @@ const PageBreadcrumbs = ({title} : Props) => {
             }),
         },
         ...extraBreadcrumbItems,
-        {
-            ...(location.pathname.length < history.length &&
-                history.includes(location.pathname) && {
-                    path: '1',
-                    breadcrumbName: <RightOutlined onClick={() => navigate(history)} />,
-                }),
-        },
+        // {
+        //     ...(location.pathname.length < history.length &&
+        //         history.includes(location.pathname) && {
+        //             path: '1',
+        //             breadcrumbName: <RightOutlined onClick={() => navigate(history)} />,
+        //         }),
+        // },
     ];
+
     return (
         <Breadcrumb>
             {breadcrumbItems.map(item => (
