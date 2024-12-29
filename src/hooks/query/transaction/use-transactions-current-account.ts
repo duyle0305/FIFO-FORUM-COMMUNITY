@@ -11,7 +11,7 @@ export type FilterTransactionParams = {
     dailyPoint: boolean;
     bonusPoint: boolean;
     orderPoint: boolean;
-    orderPointStatus: string;
+    orderPointStatus: string | undefined;
     startDate?: string;
     endDate?: string;
 };

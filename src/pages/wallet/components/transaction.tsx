@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { DATE_FORMAT, FULL_TIME_FORMAT } from '@/consts/common';
 import { useRedeemHistory } from '@/hooks/query/redeem/use-redeem-documents';
 import { useTransactionsCurrentAccount } from '@/hooks/query/transaction/use-transactions-current-account';
-import { formatSignedNumber } from '@/utils/number';
+import { formatSignedNumber, numberFormat } from '@/utils/number';
 
 import TransactionItem from './transaction-item';
 
@@ -39,8 +39,9 @@ type FormatTransaction = {
     id: string;
     title: string;
     image?: string;
+    status?: string;
     type: string;
-    amount: number;
+    amount: string | number;
     createdDate: string;
     transactionType?: string;
 };
@@ -79,21 +80,31 @@ const Transactions: FC = () => {
     const transactionList: FormatTransaction[] =
         data?.transactionList?.map(transaction => ({
             id: transaction?.transactionId,
-            title: transaction?.reward?.name,
+            title:
+                transaction.transactionType === 'REDEEM_REWARD'
+                    ? 'Exchange Source'
+                    : transaction.transactionType === 'POST_VIOLATION'
+                    ? 'Report Post'
+                    : transaction.transactionType === 'DOWNLOAD_SOURCECODE'
+                    ? 'Download File'
+                    : transaction.transactionType === 'DELETE_POST'
+                    ? 'Post was deleted'
+                    : transaction.transactionType, // Default to transactionType if no match
             image: accountInfo?.avatar || '',
-            type: transaction.type,
+            type: 'Transaction',
             amount: transaction.amount,
             createdDate: transaction.createdDate,
             transactionType: transaction?.transactionType,
+            status: 'Success',
         })) || [];
 
     const orderPointTransactions: FormatTransaction[] =
         data?.orderPointList?.map(orderPoint => ({
             id: orderPoint?.orderId,
-            title: '',
+            title: 'Deposit ' + numberFormat(orderPoint?.amount, '.') || '',
             type: 'Order Point',
             image: accountInfo?.avatar || '',
-            amount: orderPoint?.monkeyCoinPack?.point,
+            amount: numberFormat(orderPoint?.monkeyCoinPack?.point, '.'),
             createdDate: orderPoint.orderDate,
             status: orderPoint.status === 'SUCCESS' ? 'SUCCESS' : 'FAILED',
         })) || [];
@@ -167,18 +178,23 @@ const Transactions: FC = () => {
         } else {
             setParams(prev => ({
                 ...params,
-                orderPointStatus: 'SUCCESS',
+                orderPointStatus: '',
             }));
         }
     };
 
     const columns = [
-        {
-            title: 'Image',
-            dataIndex: 'image',
-            key: 'image',
-            render: (text: string) => <Avatar src={text} size={50} />,
-        },
+        // {
+        //     title: 'Image',
+        //     dataIndex: 'image',
+        //     key: 'image',
+        //     render: (text: string) => <Avatar src={text} size={50} />,
+        // },
+        // {
+        //     title: 'Type',
+        //     dataIndex: 'type',
+        //     key: 'type',
+        // },
         {
             title: 'Title',
             dataIndex: 'title',
@@ -194,9 +210,15 @@ const Transactions: FC = () => {
             title: 'Amount',
             dataIndex: 'amount',
             key: 'amount',
-            render: (text: number) => (
-                <div style={{ color: text >= 0 ? '#18C07A' : '#FF0000' }}>{formatSignedNumber(text)} MC</div>
-            ),
+            render: (text: number, record: FormatTransaction) => {
+                let color = text >= 0 ? '#18C07A' : '#FF0000';
+
+                if (record.type === 'Order Point') {
+                    color = record.status === 'SUCCESS' ? '#18C07A' : '#FF0000';
+                }
+
+                return <div style={{ color: color }}>{formatSignedNumber(text)} MC</div>;
+            },
         },
         {
             title: 'Status',
