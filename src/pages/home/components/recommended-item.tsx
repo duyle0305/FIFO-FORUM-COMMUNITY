@@ -53,6 +53,7 @@ export const RecommendedItem = ({ account, follows }: RecommendedItemProps) => {
     return (
         <Flex align="flex-start" gap={10} justify="space-between" onClick={() => navigate(PATHS.RECOMMENDATIONS)}>
             <Flex
+                style={{ cursor: 'pointer' }}
                 gap={10}
                 onClick={e => {
                     e.stopPropagation();

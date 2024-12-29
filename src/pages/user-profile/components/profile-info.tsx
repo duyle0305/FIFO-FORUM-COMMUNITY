@@ -142,12 +142,19 @@ export const ProfileInfo = ({ setIsShowReportReasons }: ProfileInfoProps) => {
                 <Typography.Text type="secondary">{userInfo?.handle}</Typography.Text>
                 <Typography.Text>{userInfo?.bio}</Typography.Text>
                 <Flex gap={24}>
-                    <Space size="small" onClick={() => navigate(PATHS.FOLLOWING, { state: { id: id } })}>
+                    <Space
+                        // size="small"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(PATHS.FOLLOWING, { state: { id: id } })}
+                    >
                         <Typography.Text>{follows?.length}</Typography.Text>
                         <Typography.Text type="secondary">Followings</Typography.Text>
                     </Space>
 
-                    <Space onClick={() => navigate(PATHS.FOLLOWER, { state: { id: id } })}>
+                    <Space
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(PATHS.FOLLOWER, { state: { id: id } })}
+                    >
                         <Typography.Text>{followers?.length}</Typography.Text>
                         <Typography.Text type="secondary">Followers</Typography.Text>
                     </Space>

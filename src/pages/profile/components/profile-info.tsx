@@ -146,12 +146,12 @@ export const ProfileInfo = () => {
                     <Typography.Text>{bio || accountInfo?.bio}</Typography.Text>
                 )}
                 <Flex gap={24}>
-                    <Space size="small" onClick={() => navigate(PATHS.FOLLOWING)}>
+                    <Space style={{ cursor: 'pointer' }} onClick={() => navigate(PATHS.FOLLOWING)}>
                         <Typography.Text>{follows?.length}</Typography.Text>
                         <Typography.Text type="secondary">Followings</Typography.Text>
                     </Space>
 
-                    <Space onClick={() => navigate(PATHS.FOLLOWER)}>
+                    <Space style={{ cursor: 'pointer' }} onClick={() => navigate(PATHS.FOLLOWER)}>
                         <Typography.Text>{followers?.length}</Typography.Text>
                         <Typography.Text type="secondary">Followers</Typography.Text>
                     </Space>
