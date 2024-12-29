@@ -1,16 +1,18 @@
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '@/consts/common';
-import { useGetAllComments } from '@/hooks/query/comment/use-comment-by-post';
-import { useCommentListing } from '@/hooks/query/comment/use-comment-listing';
-import { usePostsListing } from '@/hooks/query/post/use-posts-listing';
-import { useUpvoteListing } from '@/hooks/query/upvote/use-upvote-listing';
-import { Notification } from '@/types/notification';
-import { StarIcon } from '@/utils/asset';
-import { PATHS } from '@/utils/paths';
+import type { Notification } from '@/types/notification';
+
 import { css } from '@emotion/react';
 import { Avatar, Card, Flex, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, FULL_TIME_FORMAT } from '@/consts/common';
+import { useGetAllComments } from '@/hooks/query/comment/use-comment-by-post';
+import { useCommentListing } from '@/hooks/query/comment/use-comment-listing';
+import { usePostsListing } from '@/hooks/query/post/use-posts-listing';
+import { useUpvoteListing } from '@/hooks/query/upvote/use-upvote-listing';
+import { StarIcon } from '@/utils/asset';
+import { PATHS } from '@/utils/paths';
 
 interface NotificationItemProps {
     notification: Notification;
@@ -73,7 +75,7 @@ const NotificationItem = ({ notification }: NotificationItemProps) => {
                                 posts?.find(post => post?.postId === notiParsed?.id)?.account?.username
                             } reported on your post`}{' '}
                         {notiParsed?.entity === 'Daily point' && 'You have received daily point'}-{' '}
-                        {notification?.createdDate ? dayjs(notification?.createdDate).format('DD/MM/YYYY') : ''}
+                        {notification?.createdDate ? dayjs(notification?.createdDate).format(FULL_TIME_FORMAT) : ''}
                     </Typography.Text>
                 </div>
             </Flex>
@@ -90,4 +92,5 @@ const styles = css(`
     }
 
 `);
+
 export default NotificationItem;
