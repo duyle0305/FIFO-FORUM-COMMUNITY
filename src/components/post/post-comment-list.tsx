@@ -103,12 +103,24 @@ const PostCommentList = ({ postId, isShown }: PostCommentListProps) => {
         return null;
     }
 
+    // const isAllowShowActions = (comment: TComment) => {
+    //     return (
+    //         accountInfo?.role?.name === 'ADMIN' ||
+    //         accountInfo?.role?.name === 'STAFF' ||
+    //         comment?.account?.accountId === accountInfo?.accountId
+    //     );
+    // };
     const isAllowShowActions = (comment: TComment) => {
-        return (
-            accountInfo?.role?.name === 'ADMIN' ||
-            accountInfo?.role?.name === 'STAFF' ||
-            comment?.account?.accountId === accountInfo?.accountId
-        );
+        const isAdminOrStaff = accountInfo?.role?.name === 'ADMIN' || accountInfo?.role?.name === 'STAFF';
+        const isOwner = comment?.account?.accountId === accountInfo?.accountId;
+
+        // Nếu là ADMIN hoặc STAFF, chỉ cho phép xóa
+        if (isAdminOrStaff) {
+            return true; // Chỉ cho phép xóa
+        }
+
+        // Nếu là chủ sở hữu, cho phép cả chỉnh sửa và xóa
+        return isOwner;
     };
 
     const handleDelete = (comment: TComment) => {
@@ -444,12 +456,18 @@ const PostCommentList = ({ postId, isShown }: PostCommentListProps) => {
                                 <Dropdown
                                     menu={{
                                         items: [
-                                            {
-                                                key: '0',
-                                                icon: <EditOutlined />,
-                                                label: <span>Edit reply</span>,
-                                                onClick: () => handleUpdateReply(rep.commentId),
-                                            },
+                                            // Chỉ hiển thị "Edit" nếu không phải là ADMIN hoặc STAFF
+                                            ...(accountInfo?.role?.name !== 'ADMIN' &&
+                                            accountInfo?.role?.name !== 'STAFF'
+                                                ? [
+                                                      {
+                                                          key: '0',
+                                                          icon: <EditOutlined />,
+                                                          label: <span>Edit reply</span>,
+                                                          onClick: () => handleUpdateReply(rep.commentId),
+                                                      },
+                                                  ]
+                                                : []),
                                             {
                                                 key: '1',
                                                 icon: <DeleteOutlined />,
@@ -655,12 +673,17 @@ const PostCommentList = ({ postId, isShown }: PostCommentListProps) => {
                         <Dropdown
                             menu={{
                                 items: [
-                                    {
-                                        key: '0',
-                                        icon: <EditOutlined />,
-                                        label: <span>Edit comment</span>,
-                                        onClick: () => handleUpdate(item.commentId),
-                                    },
+                                    // Chỉ hiển thị "Edit" nếu không phải là ADMIN hoặc STAFF
+                                    ...(accountInfo?.role?.name !== 'ADMIN' && accountInfo?.role?.name !== 'STAFF'
+                                        ? [
+                                              {
+                                                  key: '0',
+                                                  icon: <EditOutlined />,
+                                                  label: <span>Edit comment</span>,
+                                                  onClick: () => handleUpdate(item.commentId),
+                                              },
+                                          ]
+                                        : []),
                                     {
                                         key: '1',
                                         icon: <DeleteOutlined />,
