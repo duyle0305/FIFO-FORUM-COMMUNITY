@@ -2,9 +2,7 @@ import type { Response } from '@/types';
 import type { RefreshTokenResponse } from '@/types/auth';
 import type { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
-import { message as $message } from 'antd';
 import axios from 'axios';
-import Qs from 'qs';
 
 import { ApiConfigs, ApiPaths } from '@/consts/apis';
 import { LocalStorageKeys } from '@/consts/local-storage';

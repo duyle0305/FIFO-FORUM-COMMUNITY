@@ -1,7 +1,7 @@
-import React from 'react';
+import { CodeOutlined } from '@ant-design/icons';
 import { type Editor } from '@tiptap/react';
 import { Button, Tooltip } from 'antd';
-import { CodeOutlined } from '@ant-design/icons';
+import React from 'react';
 
 interface ToolbarProps {
     editor: Editor | null;
@@ -21,11 +21,13 @@ const Toolbar = ({ editor }: ToolbarProps) => {
                 padding: '10px',
             }}
         >
-           
             {/* CODE BLOCK */}
             <Tooltip title="Code Block">
-
-            <Button size='small' onClick={() => editor?.chain().focus().toggleCodeBlock().run()} icon={<CodeOutlined />}></Button>
+                <Button
+                    size="small"
+                    onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
+                    icon={<CodeOutlined />}
+                ></Button>
             </Tooltip>
         </div>
     );

@@ -1,7 +1,9 @@
-import PageBreadcrumbs from '@/components/core/page-breadcrumbs';
 import { Card, Divider, Flex, Image, Typography } from 'antd';
 import React from 'react';
-import PlaceholderSvg from '/public/placeholder.svg';
+
+import PageBreadcrumbs from '@/components/core/page-breadcrumbs';
+
+import logo from '../../FIFO logo.png';
 
 const AboutPage = () => {
     return (
@@ -72,8 +74,9 @@ const AboutPage = () => {
                         contributions and creative ideas!
                     </Typography.Paragraph>
                 </Flex>
-
-                <Image src={PlaceholderSvg} alt="about" width={800} height={400} preview={false} />
+                <Flex justify="center">
+                    <Image src={logo} alt="about" width={500} height={400} preview={false} />
+                </Flex>
             </Flex>
         </Card>
     );
