@@ -1,6 +1,9 @@
+import type { UseMutationOptions } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
+
+import { useMutation } from '@tanstack/react-query';
+
 import axiosInstance from '@/apis/request';
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
 export const useResetPassword = (
     options: UseMutationOptions<
@@ -10,7 +13,7 @@ export const useResetPassword = (
     > = {},
 ) => {
     const resetPassword = async (payload: { email: string; password: string; confirmPassword: string }) => {
-        return axiosInstance.put(`/authenticate/change-password?email=${payload.email}`, {
+        return axiosInstance.put(`/authenticate/forget-password?email=${payload.email}`, {
             password: payload.password,
             confirmPassword: payload.confirmPassword,
         });
