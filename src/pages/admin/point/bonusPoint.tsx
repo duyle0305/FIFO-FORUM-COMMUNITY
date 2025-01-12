@@ -38,7 +38,7 @@ const BonusPoint = () => {
             onOk: () => {
                 deleteRequest(`/type-bonus/delete/${point.typeBonusId}`).then((res: any) => {
                     if (res.status === 200) {
-                        message.success('Point deleted successfully');
+                        message.success('Point ' + point.name + ' deleted successfully');
                         setRefresh(!refresh);
                     }
                 });
@@ -78,14 +78,14 @@ const BonusPoint = () => {
         apiCall(endpoint, selectedPoint)
             .then((res: any) => {
                 if (res.status === 200) {
-                    message.success('Point saved successfully');
+                    message.success('Bonus Point ' + selectedPoint.name + ' saved successfully');
                     setShowModal(false);
                     setSelectedPoint(undefined);
                     setRefresh(!refresh);
                 }
             })
             .catch(error => {
-                message.error('Failed to save point');
+                message.error('Failed to save Bonus Point ' + selectedPoint.name);
             });
     };
 

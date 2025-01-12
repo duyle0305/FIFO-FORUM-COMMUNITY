@@ -58,12 +58,12 @@ const AdminStaffPage = () => {
                       email: searchDebounce,
                       page: DEFAULT_PAGE,
                       perPage: DEFAULT_PAGE_SIZE,
-                      status: 'ACTIVE',
+                      status: '',
                   }
                 : {
                       page: DEFAULT_PAGE,
                       perPage: DEFAULT_PAGE_SIZE,
-                      status: 'ACTIVE',
+                      status: '',
                   },
         );
     }, [searchDebounce]);

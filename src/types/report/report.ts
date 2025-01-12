@@ -1,5 +1,7 @@
-import { Account } from "../account";
-import { FeedbackStatus } from "../feedback/feedback";
+import type { Account } from '../account';
+import type { FeedbackStatus } from '../feedback/feedback';
+
+import { N } from 'mockjs';
 
 export type ReportAccountReasons =
     | 'HATE'
@@ -11,20 +13,19 @@ export type ReportAccountReasons =
     | 'SUICIDE_OR_SELF_HARM'
     | 'SENSITIVE_OR_DISTURBING_MEDIA'
     | 'IMPERSONATION'
-    | 'VIOLENT_AND_HATEFUL_ENTITIES'
-   
+    | 'VIOLENT_AND_HATEFUL_ENTITIES';
 
 export const reportAccountReasons: ReportAccountReasons[] = [
     'HATE',
-     'ABUSE_AND_HARASSMENT',
-     'VIOLENT_SPEECH',
-     'CHILD_SAFETY',
-     'PRIVACY',
-     'SPAM',
-     'SUICIDE_OR_SELF_HARM',
-     'SENSITIVE_OR_DISTURBING_MEDIA',
-     'IMPERSONATION',
-     'VIOLENT_AND_HATEFUL_ENTITIES',
+    'ABUSE_AND_HARASSMENT',
+    'VIOLENT_SPEECH',
+    'CHILD_SAFETY',
+    'PRIVACY',
+    'SPAM',
+    'SUICIDE_OR_SELF_HARM',
+    'SENSITIVE_OR_DISTURBING_MEDIA',
+    'IMPERSONATION',
+    'VIOLENT_AND_HATEFUL_ENTITIES',
 ];
 
 export type ReportType =
@@ -87,6 +88,9 @@ export const reportReasons: ReportType[] = [
 ];
 
 export type PostReport = {
+    reportsLeftToDelete: number;
+    approvedReportAmount: number;
+    reportThresholdForAutoDelete: number;
     reportId: string;
     title: string;
     description: string;
@@ -96,8 +100,8 @@ export type PostReport = {
     postTitle: string;
     postContent: string;
     postCreatedDate: string;
-    account: Account
-}
+    account: Account;
+};
 
 export type AccountReport = {
     reportAccountId: string;
@@ -107,4 +111,4 @@ export type AccountReport = {
     status: FeedbackStatus;
     reporter: Account;
     reported: Account;
-}
+};

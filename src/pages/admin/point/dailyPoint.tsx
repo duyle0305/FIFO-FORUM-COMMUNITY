@@ -47,7 +47,7 @@ const DailyPointTable = () => {
     const handleSave = () => {
         put('/point/update', selectedPoint).then((res: any) => {
             if (res.status === 200) {
-                message.success('Point updated successfully');
+                message.success('Daily Point updated successfully');
                 setShowModal(false);
                 setSelectedPoint(undefined);
                 setRefresh(!refresh);

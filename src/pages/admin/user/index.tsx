@@ -27,28 +27,27 @@ const AdminUserPage = () => {
 
     const searchDebounce = useDebounce(search, 500);
 
-    // useEffect(() => {
-    //     setParams(() =>
-    //         searchDebounce
-    //             ? {
-    //                   username: searchDebounce,
-    //                   email: searchDebounce,
-    //                   page: DEFAULT_PAGE,
-    //                   perPage: DEFAULT_PAGE_SIZE,
-    //               }
-    //             : {
-    //                   page: DEFAULT_PAGE,
-    //                   perPage: DEFAULT_PAGE_SIZE,
-    //               },
-    //     );
-    // }, [searchDebounce]);
     useEffect(() => {
-        setParams(prev => ({ ...prev, username: searchDebounce, email: searchDebounce, page: DEFAULT_PAGE }));
+        setParams(() =>
+            searchDebounce
+                ? {
+                      username: searchDebounce,
+                      email: searchDebounce,
+                      page: DEFAULT_PAGE,
+                      perPage: DEFAULT_PAGE_SIZE,
+                  }
+                : {
+                      page: DEFAULT_PAGE,
+                      perPage: DEFAULT_PAGE_SIZE,
+                  },
+        );
     }, [searchDebounce]);
+    // useEffect(() => {
+    //     setParams(prev => ({ ...prev, username: searchDebounce, email: searchDebounce, page: DEFAULT_PAGE }));
+    // }, [searchDebounce]);
     // const { data, isFetching } = useUsersListing({ params: { ...params } });
 
     // useEffect(() => {
-    //     console.log(data); // Log dữ liệu từ API
     // }, [data]);
 
     // useEffect(() => {
@@ -56,27 +55,31 @@ const AdminUserPage = () => {
     // }, [searchDebounce]);
 
     const { data: usernameData, isFetching: isFetchingUsername } = useUsersListing({
-        params: { username: searchDebounce, page: DEFAULT_PAGE, perPage: DEFAULT_PAGE_SIZE },
+        // params: { username: searchDebounce, page: DEFAULT_PAGE, perPage: DEFAULT_PAGE_SIZE },
+        params: { page: DEFAULT_PAGE, perPage: DEFAULT_PAGE_SIZE },
     });
 
-    const { data: emailData, isFetching: isFetchingEmail } = useUsersListing({
-        params: { email: searchDebounce, page: DEFAULT_PAGE, perPage: DEFAULT_PAGE_SIZE },
-    });
+    // const { data: emailData, isFetching: isFetchingEmail } = useUsersListing({
+    //     params: { email: searchDebounce, page: DEFAULT_PAGE, perPage: DEFAULT_PAGE_SIZE },
+    // });
 
-    const combinedData = React.useMemo(() => {
-        if (!usernameData || !emailData) return [];
-        const uniqueData = [...usernameData, ...emailData].reduce((acc, current) => {
-            if (!acc.find(item => item.accountId === current.accountId)) {
-                acc.push(current);
-            }
+    // const combinedData = React.useMemo(() => {
+    //     if (!usernameData || !emailData) return [];
+    //     const uniqueData = [...usernameData, ...emailData].reduce((acc, current) => {
+    //         if (!acc.find(item => item.accountId === current.accountId)) {
+    //             acc.push(current);
+    //         }
 
-            return acc;
-        }, [] as Account[]);
+    //         return acc;
+    //     }, [] as Account[]);
 
-        return uniqueData;
-    }, [usernameData, emailData]);
+    //     return uniqueData;
+    // }, [usernameData, emailData]);
 
-    const isFetching = isFetchingUsername || isFetchingEmail;
+    // const isFetching = isFetchingUsername || isFetchingEmail;
+    const isFetching = isFetchingUsername;
+
+    const data = usernameData;
 
     const { mutate: deleteAccount, isPending: isPendingDeleteTag } = useDeleteAccount();
 
@@ -202,7 +205,7 @@ const AdminUserPage = () => {
                     loading={isFetching}
                     columns={columns}
                     dataSource={
-                        combinedData?.filter(
+                        data?.filter(
                             d =>
                                 d.role.name === 'USER' &&
                                 (d.status === 'ACTIVE' || d.status === 'INACTIVE') &&

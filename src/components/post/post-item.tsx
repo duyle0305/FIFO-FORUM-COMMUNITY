@@ -55,6 +55,7 @@ import { useGetWalletByAccount } from '@/hooks/query/wallet/use-get-wallet-by-ac
 import { useMessage } from '@/hooks/use-message';
 import { setPost } from '@/stores/post';
 import dayjsConfig from '@/utils/dayjs';
+import { numberFormat } from '@/utils/number';
 import { PATHS } from '@/utils/paths';
 import { put } from '@/utils/service';
 
@@ -557,64 +558,75 @@ export const PostItem: FC<PostItemProps> = ({
                                 <Typography.Link
                                     onClick={e => {
                                         e.stopPropagation();
-                                        confirm({
-                                            title: 'Confirm',
-                                            content: (
-                                                <>
-                                                    <Typography.Text type="secondary">
-                                                        Do you want to download this file?
-                                                    </Typography.Text>
-                                                    <Flex vertical align="center">
-                                                        <Typography.Title
-                                                            level={3}
-                                                            color="#FF6934"
-                                                            style={{
-                                                                color: '#FF6934',
-                                                                marginTop: 24,
-                                                            }}
-                                                        >
-                                                            -{DOWNLOAD_POINT} MC
-                                                        </Typography.Title>
-                                                    </Flex>
-                                                    <Divider />
-                                                    <Flex justify="space-between">
-                                                        <Typography.Title level={4}>Balance:</Typography.Title>
-                                                        <Typography.Title level={4}>
-                                                            {wallet?.balance} MC
-                                                        </Typography.Title>
-                                                    </Flex>
-                                                    <Flex justify="space-between">
-                                                        <Typography.Title
-                                                            level={4}
-                                                            style={{
-                                                                color:
-                                                                    (wallet?.balance || 0) - (DOWNLOAD_POINT || 0) < 0
-                                                                        ? 'red'
-                                                                        : 'black',
-                                                            }}
-                                                        >
-                                                            Remaining:
-                                                        </Typography.Title>
-                                                        <Typography.Title
-                                                            level={4}
-                                                            style={{
-                                                                color:
-                                                                    (wallet?.balance || 0) - (DOWNLOAD_POINT || 0) < 0
-                                                                        ? 'red'
-                                                                        : 'black',
-                                                            }}
-                                                        >
-                                                            {(wallet?.balance || 0) - (DOWNLOAD_POINT || 0)} MC
-                                                        </Typography.Title>
-                                                    </Flex>
-                                                    <Divider />
-                                                </>
-                                            ),
-                                            onOk: () => {
-                                                setDownloadPostId(postId);
-                                                download();
-                                            },
-                                        });
+
+                                        if (data.account.accountId === accountInfo.accountId) {
+                                            setDownloadPostId(postId);
+                                            download();
+                                        } else {
+                                            confirm({
+                                                title: 'Confirm',
+                                                content: (
+                                                    <>
+                                                        <Typography.Text type="secondary">
+                                                            Do you want to download this file?
+                                                        </Typography.Text>
+                                                        <Flex vertical align="center">
+                                                            <Typography.Title
+                                                                level={3}
+                                                                color="#FF6934"
+                                                                style={{
+                                                                    color: '#FF6934',
+                                                                    marginTop: 24,
+                                                                }}
+                                                            >
+                                                                -{DOWNLOAD_POINT} MC
+                                                            </Typography.Title>
+                                                        </Flex>
+                                                        <Divider />
+                                                        <Flex justify="space-between">
+                                                            <Typography.Title level={4}>Balance:</Typography.Title>
+                                                            <Typography.Title level={4}>
+                                                                {numberFormat(wallet?.balance)} MC
+                                                            </Typography.Title>
+                                                        </Flex>
+                                                        <Flex justify="space-between">
+                                                            <Typography.Title
+                                                                level={4}
+                                                                style={{
+                                                                    color:
+                                                                        (wallet?.balance || 0) - (DOWNLOAD_POINT || 0) <
+                                                                        0
+                                                                            ? 'red'
+                                                                            : 'green',
+                                                                }}
+                                                            >
+                                                                Remaining:
+                                                            </Typography.Title>
+                                                            <Typography.Title
+                                                                level={4}
+                                                                style={{
+                                                                    color:
+                                                                        (wallet?.balance || 0) - (DOWNLOAD_POINT || 0) <
+                                                                        0
+                                                                            ? 'red'
+                                                                            : 'green',
+                                                                }}
+                                                            >
+                                                                {numberFormat(
+                                                                    (wallet?.balance || 0) - (DOWNLOAD_POINT || 0),
+                                                                )}{' '}
+                                                                MC
+                                                            </Typography.Title>
+                                                        </Flex>
+                                                        <Divider />
+                                                    </>
+                                                ),
+                                                onOk: () => {
+                                                    setDownloadPostId(postId);
+                                                    download();
+                                                },
+                                            });
+                                        }
                                     }}
                                     style={{
                                         color: '#007AFF',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { RootState } from '@/stores';
 
 import { useQueryClient } from '@tanstack/react-query';
@@ -54,19 +55,19 @@ const RewardList = () => {
                                 marginTop: 24,
                             }}
                         >
-                            -{detail?.price} MC
+                            -{numberFormat(detail?.price, '.')} MC
                         </Typography.Title>
                     </Flex>
                     <Divider />
                     <Flex justify="space-between">
                         <Typography.Title level={4}>Balance:</Typography.Title>
-                        <Typography.Title level={4}>{wallet?.balance} MC</Typography.Title>
+                        <Typography.Title level={4}>{numberFormat(wallet?.balance, '.')} MC</Typography.Title>
                     </Flex>
                     <Flex justify="space-between">
                         <Typography.Title
                             level={4}
                             style={{
-                                color: (wallet?.balance || 0) - (detail?.price || 0) < 0 ? 'red' : 'black',
+                                color: (wallet?.balance || 0) - (detail?.price || 0) < 0 ? 'red' : 'green',
                             }}
                         >
                             Remaining:
@@ -74,13 +75,77 @@ const RewardList = () => {
                         <Typography.Title
                             level={4}
                             style={{
-                                color: (wallet?.balance || 0) - (detail?.price || 0) < 0 ? 'red' : 'black',
+                                color: (wallet?.balance || 0) - (detail?.price || 0) < 0 ? 'red' : 'green',
                             }}
                         >
-                            {(wallet?.balance || 0) - (detail?.price || 0)} MC
+                            {numberFormat((wallet?.balance || 0) - (detail?.price || 0), '.')} MC
                         </Typography.Title>
                     </Flex>
                     <Divider />
+                    <Flex align="center" justify="center">
+                        {(wallet?.balance || 0) - detail?.price > 0 ? (
+                            <Flex>
+                                {() => {
+                                    Modal.destroyAll();
+                                    // navigate(PATHS.DEPOSIT);
+                                    createRedeem(
+                                        { accountId: accountInfo?.accountId || '', rewardId: detail?.rewardId || '' },
+                                        {
+                                            onSuccess: () => {
+                                                queryClient.invalidateQueries({
+                                                    queryKey: walletKeys.getByAccount(accountInfo?.accountId || ''),
+                                                });
+                                                queryClient.invalidateQueries({
+                                                    queryKey: redeemKeys.documents(),
+                                                });
+                                                success('Redeem successfully');
+                                            },
+                                            onError: err => {
+                                                error(err.message);
+                                                // navigate(PATHS.DEPOSIT);
+                                            },
+                                        },
+                                    );
+                                }}
+                            </Flex>
+                        ) : (
+                            <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                <Typography.Title level={4} style={{ color: 'red' }}>
+                                    Does not enough balance
+                                </Typography.Title>
+                                <Divider />
+                                <SecondaryButton
+                                    onClick={() => {
+                                        Modal.destroyAll();
+                                        navigate(PATHS.DEPOSIT);
+                                        createRedeem(
+                                            {
+                                                accountId: accountInfo?.accountId || '',
+                                                rewardId: detail?.rewardId || '',
+                                            },
+                                            {
+                                                onSuccess: () => {
+                                                    queryClient.invalidateQueries({
+                                                        queryKey: walletKeys.getByAccount(accountInfo?.accountId || ''),
+                                                    });
+                                                    queryClient.invalidateQueries({
+                                                        queryKey: redeemKeys.documents(),
+                                                    });
+                                                    success('Redeem successfully');
+                                                },
+                                                onError: err => {
+                                                    error(err.message);
+                                                    // navigate(PATHS.DEPOSIT);
+                                                },
+                                            },
+                                        );
+                                    }}
+                                >
+                                    Deposit
+                                </SecondaryButton>
+                            </Flex>
+                        )}
+                    </Flex>
                 </>
             ),
             onOk: () => {
@@ -100,7 +165,7 @@ const RewardList = () => {
                         },
                         onError: err => {
                             error(err.message);
-                            // navigate(PATHS.DEPOSIT);
+                            navigate(PATHS.DEPOSIT);
                         },
                     },
                 );

@@ -5,7 +5,6 @@ import type { FC } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
 import { Divider, Flex, Modal, Space, Typography } from 'antd';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -54,19 +53,19 @@ const RewardItem: FC<RewardItemProps> = ({ reward, onClick }) => {
                                 marginTop: 24,
                             }}
                         >
-                            -{price} MC
+                            -{numberFormat(price, '.')} MC
                         </Typography.Title>
                     </Flex>
                     <Divider />
                     <Flex justify="space-between">
                         <Typography.Title level={4}>Balance:</Typography.Title>
-                        <Typography.Title level={4}>{wallet?.balance} MC</Typography.Title>
+                        <Typography.Title level={4}>{numberFormat(wallet?.balance, '.')} MC</Typography.Title>
                     </Flex>
                     <Flex justify="space-between">
                         <Typography.Title
                             level={4}
                             style={{
-                                color: (wallet?.balance || 0) - price < 0 ? 'red' : 'black',
+                                color: (wallet?.balance || 0) - price < 0 ? 'red' : 'green',
                             }}
                         >
                             Remaining:
@@ -74,17 +73,17 @@ const RewardItem: FC<RewardItemProps> = ({ reward, onClick }) => {
                         <Typography.Title
                             level={4}
                             style={{
-                                color: (wallet?.balance || 0) - price < 0 ? 'red' : 'black',
+                                color: (wallet?.balance || 0) - price < 0 ? 'red' : 'green',
                             }}
                         >
-                            {(wallet?.balance || 0) - price} MC
+                            {numberFormat((wallet?.balance || 0) - price, '.')} MCC
                         </Typography.Title>
                     </Flex>
                     <Divider />
                     <Flex align="center" justify="center">
                         {(wallet?.balance || 0) - price > 0 ? (
-                            <SecondaryButton
-                                onClick={() => {
+                            <Flex>
+                                {() => {
                                     Modal.destroyAll();
                                     // navigate(PATHS.DEPOSIT);
                                     createRedeem(
@@ -106,11 +105,40 @@ const RewardItem: FC<RewardItemProps> = ({ reward, onClick }) => {
                                         },
                                     );
                                 }}
-                            >
-                                Deposit
-                            </SecondaryButton>
+                            </Flex>
                         ) : (
-                            <Typography.Title level={4}>Does not enough balance</Typography.Title>
+                            <Flex style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                <Typography.Title level={4} style={{ color: 'red' }}>
+                                    Does not enough balance
+                                </Typography.Title>
+                                <Divider />
+                                <SecondaryButton
+                                    onClick={() => {
+                                        Modal.destroyAll();
+                                        navigate(PATHS.DEPOSIT);
+                                        createRedeem(
+                                            { accountId: accountInfo?.accountId || '', rewardId },
+                                            {
+                                                onSuccess: () => {
+                                                    queryClient.invalidateQueries({
+                                                        queryKey: walletKeys.getByAccount(accountInfo?.accountId || ''),
+                                                    });
+                                                    queryClient.invalidateQueries({
+                                                        queryKey: redeemKeys.documents(),
+                                                    });
+                                                    success('Redeem successfully');
+                                                },
+                                                onError: err => {
+                                                    error(err.message);
+                                                    // navigate(PATHS.DEPOSIT);
+                                                },
+                                            },
+                                        );
+                                    }}
+                                >
+                                    Deposit
+                                </SecondaryButton>
+                            </Flex>
                         )}
                     </Flex>
                 </>
@@ -130,7 +158,7 @@ const RewardItem: FC<RewardItemProps> = ({ reward, onClick }) => {
                         },
                         onError: err => {
                             error(err.message);
-                            // navigate(PATHS.DEPOSIT);
+                            navigate(PATHS.DEPOSIT);
                         },
                     },
                 );
