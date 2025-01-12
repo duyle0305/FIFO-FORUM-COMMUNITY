@@ -20,6 +20,7 @@ import { useUpdateCategory } from '@/hooks/mutate/category/use-update-category';
 import { useCategoriesListing, useCategory } from '@/hooks/query/category/use-category-listing';
 import { useMessage } from '@/hooks/use-message';
 import { useUploadFile } from '@/hooks/use-upload-file';
+import ImageCategoryPlaceholder from '../../../../public/ftech-logo.svg';
 
 const { confirm } = Modal;
 
@@ -117,7 +118,16 @@ const AdminCategoryPage = () => {
             title: 'Image',
             dataIndex: 'image',
             key: 'image',
-            render: (image: string) => <Image src={image} alt="category" style={{ width: '100px', height: '100px' }} />,
+            render: (image: string) => 
+                <Image src={image || ImageCategoryPlaceholder} 
+            alt="category"   
+            style={{ 
+                objectFit: 'contain',
+                borderRadius: 16,
+                width: '100px', 
+                height: '100px' }}
+            />,
+            // <Image src={image} alt="category" style={{ width: '100px', height: '100px' }} />,
         },
         {
             title: 'Actions',
