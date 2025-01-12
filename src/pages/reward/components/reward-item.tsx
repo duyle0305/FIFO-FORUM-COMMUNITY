@@ -76,7 +76,7 @@ const RewardItem: FC<RewardItemProps> = ({ reward, onClick }) => {
                                 color: (wallet?.balance || 0) - price < 0 ? 'red' : 'green',
                             }}
                         >
-                            {numberFormat((wallet?.balance || 0) - price, '.')} MCC
+                            {numberFormat((wallet?.balance || 0) - price, '.')} MC
                         </Typography.Title>
                     </Flex>
                     <Divider />
