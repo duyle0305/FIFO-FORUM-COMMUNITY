@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, FULL_TIME_FORMAT } from '@/consts/common';
 import { useGetAllComments } from '@/hooks/query/comment/use-comment-by-post';
-import { useCommentListing } from '@/hooks/query/comment/use-comment-listing';
 import { usePostsListing } from '@/hooks/query/post/use-posts-listing';
 import { useUpvoteListing } from '@/hooks/query/upvote/use-upvote-listing';
 import { StarIcon } from '@/utils/asset';
@@ -56,9 +55,12 @@ const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {
         <Card css={styles} onClick={handleReadNotification}>
             <Flex vertical gap={6}>
                 <Flex align="center" gap={10}>
-                    <div>
-                        <img src={StarIcon} alt="Star Icon" />
-                    </div>
+                    {!notification.read && (
+                        <div>
+                            <img src={StarIcon} alt="Star Icon" />
+                        </div>
+                    )}
+
                     <div>
                         <Avatar src={notification?.account?.avatar} />
                     </div>

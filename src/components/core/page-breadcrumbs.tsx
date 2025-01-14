@@ -68,9 +68,9 @@ const PageBreadcrumbs = ({ title }: Props) => {
     return (
         <Breadcrumb>
             {breadcrumbItems.map(item => (
-                <React.Fragment key={item.path}>
-                    <Breadcrumb.Item>{item.breadcrumbName}</Breadcrumb.Item>
-                </React.Fragment>
+                <Breadcrumb.Item>
+                    <span style={{ textTransform: 'uppercase' }}>{item.breadcrumbName}</span>
+                </Breadcrumb.Item>
             ))}
         </Breadcrumb>
     );
