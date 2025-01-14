@@ -207,7 +207,7 @@ const RewardList = () => {
                             src={detail?.image || PlaceholderSvg}
                             alt={detail?.name}
                             style={{
-                                width: 300,
+                                width: 'auto',
                                 height: 300,
                                 objectFit: 'cover',
                             }}

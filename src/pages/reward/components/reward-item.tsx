@@ -170,10 +170,17 @@ const RewardItem: FC<RewardItemProps> = ({ reward, onClick }) => {
         <RewardCard
             hoverable
             style={{ width: 348 }}
-            cover={<img alt="example" src={image || PlaceholderSvg} style={{ height: 180, objectFit: 'cover' }} />}
+            cover={
+                <img
+                    alt="example"
+                    src={image || PlaceholderSvg}
+                    style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                />
+            }
             onClick={onClick}
         >
-            <Space direction="vertical" size={10}>
+            <Divider style={{ width: '100%' }} />
+            <Space direction="vertical" size={10} style={{ height: 90 }}>
                 <Typography.Title level={4}>{name}</Typography.Title>
                 <Typography.Text style={{ color: '#FF6934' }}>{numberFormat(price, '.')} MC</Typography.Text>
             </Space>

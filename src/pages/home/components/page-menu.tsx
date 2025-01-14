@@ -37,7 +37,6 @@ export const PageMenu = () => {
             key: PATHS.HOME,
             icon: <Icon component={() => <img src={HomeSvg} alt="home" />} />,
             label: 'Home',
-            title: PATHS.HOME,
             onClick: () => navigate(PATHS.HOME),
         },
         {

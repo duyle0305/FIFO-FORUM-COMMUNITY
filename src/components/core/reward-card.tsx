@@ -1,6 +1,10 @@
+import type { CardProps } from 'antd';
+import type { FC } from 'react';
+
+import { Card, ConfigProvider } from 'antd';
+import React from 'react';
+
 import { themeConfig } from '@/consts/token';
-import { Card, CardProps, ConfigProvider } from 'antd';
-import React, { FC } from 'react';
 
 interface RewardCardProps extends CardProps {}
 
