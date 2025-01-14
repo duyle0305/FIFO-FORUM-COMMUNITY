@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { EllipsisOutlined } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Card, Dropdown, Flex, Space, Tag, Typography } from 'antd';
+import { Button, Card, Dropdown, Flex, Modal, Space, Tag, Typography } from 'antd';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
@@ -44,6 +44,19 @@ const AdminReportItem = ({ data, setPostId, setReport }: AdminReportItemProps) =
             });
         },
     });
+
+    const handleUpdatePostReport = (status: string) => {
+        if (data?.approvedReportAmount === 4) {
+            Modal.confirm({
+                title: 'Are you sure you want to update the report?',
+                onOk() {
+                    updatePostReport(status);
+                },
+            });
+        } else {
+            updatePostReport(status);
+        }
+    };
 
     return (
         <Card
@@ -96,7 +109,7 @@ const AdminReportItem = ({ data, setPostId, setReport }: AdminReportItemProps) =
                                         ),
                                         onClick: e => {
                                             e.domEvent.stopPropagation();
-                                            updatePostReport('APPROVED');
+                                            handleUpdatePostReport('APPROVED');
                                         },
                                         disabled: data?.status !== 'PENDING',
                                     },

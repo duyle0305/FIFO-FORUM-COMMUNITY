@@ -24,6 +24,8 @@ export interface Account {
     countFollower?: number;
     countFollowee?: number;
     following?: boolean;
+    categoryList?: any;
+    categoryList_ForStaff?: any;
 }
 
 export interface Wallet {

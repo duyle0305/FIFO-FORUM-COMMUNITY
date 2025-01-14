@@ -1,17 +1,15 @@
-import { request } from '@/apis/request';
-import { postKeys } from '@/consts/factory/post';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+
+import { request } from '@/apis/request';
+import { postKeys } from '@/consts/factory/post';
 
 export const usePostDownload = (postId: string) => {
     const queryClient = useQueryClient();
     const [enabled, setEnabled] = useState(false);
 
     const getPostDownload = async () => {
-        const response = await request(
-            'get',
-            `/post/download/${postId}`,
-        );
+        const response = await request('get', `/post/download/${postId}`);
 
         return response;
     };

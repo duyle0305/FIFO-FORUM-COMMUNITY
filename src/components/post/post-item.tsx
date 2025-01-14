@@ -45,6 +45,7 @@ import { DOWNLOAD_POINT } from '@/consts/common';
 import { REPORT_REASONS } from '@/consts/constants';
 import { bookmarkKeys } from '@/consts/factory/bookmark';
 import { postKeys } from '@/consts/factory/post';
+import { LocalStorageKeys } from '@/consts/local-storage';
 import { useToggleBookmark } from '@/hooks/mutate/bookmark/use-toggle-bookmark';
 import { useDeleteDraftPost, useDeletePost } from '@/hooks/mutate/post/use-delete-post';
 import { useToggleUpvote } from '@/hooks/mutate/upvote/use-toggle-upvote';
@@ -57,7 +58,7 @@ import { setPost } from '@/stores/post';
 import dayjsConfig from '@/utils/dayjs';
 import { numberFormat } from '@/utils/number';
 import { PATHS } from '@/utils/paths';
-import { put } from '@/utils/service';
+import { get, put } from '@/utils/service';
 
 import { UserInfo } from '../user/user-info';
 import { IconButton } from './icon-button';
@@ -311,6 +312,8 @@ export const PostItem: FC<PostItemProps> = ({
             console.error('Failed to update status:', error);
         }
     };
+
+    const point = JSON.parse(localStorage.getItem(LocalStorageKeys.POINT) || '[]');
 
     return (
         data && (
@@ -579,7 +582,11 @@ export const PostItem: FC<PostItemProps> = ({
                                                                     marginTop: 24,
                                                                 }}
                                                             >
-                                                                -{DOWNLOAD_POINT} MC
+                                                                -
+                                                                {point?.length > 0
+                                                                    ? point[0].pointCostPerDownload
+                                                                    : DOWNLOAD_POINT}{' '}
+                                                                MC
                                                             </Typography.Title>
                                                         </Flex>
                                                         <Divider />

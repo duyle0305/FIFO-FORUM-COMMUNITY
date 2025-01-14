@@ -6,5 +6,5 @@ export const LocalStorageKeys = {
     USER_ROLES_KEY: 'roles',
     LOCALE_KEY: 'locale',
     IS_NEW_USER_KEY: 'newUser',
+    POINT: 'point',
 };
-

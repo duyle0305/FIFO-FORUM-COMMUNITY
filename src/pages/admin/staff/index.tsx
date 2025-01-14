@@ -146,18 +146,11 @@ const AdminStaffPage = () => {
         //     title: 'Email',
         //     dataIndex: 'email',
         //     key: 'email',
-        // },
         {
-            title: 'Points',
-            dataIndex: 'wallet',
-            key: 'wallet',
-            render: (_, record) => `${record?.wallet?.balance} MC`,
-        },
-        {
-            title: 'Created Date',
-            dataIndex: 'createdDate',
-            key: 'createdDate',
-            render: text => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+            title: 'Category',
+            dataIndex: 'categoryList',
+            key: 'categoryList',
+            render: (_, record) => record?.categoryList?.[0]?.name || '',
         },
         {
             title: 'Status',
@@ -215,8 +208,10 @@ const AdminStaffPage = () => {
             address: '',
             gender: '',
             role: 'STAFF',
-            categoryList: [...selectedCategories],
+            categoryList_ForStaff: [selectedCategories],
         };
+
+        // console.log(req);
 
         signup(req, {
             onSuccess: result => {
@@ -224,8 +219,8 @@ const AdminStaffPage = () => {
                     message.success('Registration account successfully');
                     form.resetFields();
                     setModalState({ type: 'add', open: false });
-                    window.location.reload();
-                    setSelectedCategories([]);
+                    // window.location.reload();
+                    setSelectedCategories('');
                 }
             },
             onError: error => {
@@ -238,7 +233,7 @@ const AdminStaffPage = () => {
         // console.log('Failed:', errorInfo);
     };
 
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string>();
 
     const [modalState, setModalState] = useState<ModalState>({
         type: 'add',
@@ -251,8 +246,6 @@ const AdminStaffPage = () => {
     const onCancelCreate = () => {
         setModalState({ type: 'add', open: false });
     };
-
-    console.log(data);
 
     return (
         <Card>
@@ -339,7 +332,7 @@ const AdminStaffPage = () => {
 
                     <Form.Item>
                         <Select
-                            mode="multiple"
+                            // mode="multiple"
                             placeholder="Select categories"
                             value={selectedCategories}
                             onChange={value => setSelectedCategories(value)}

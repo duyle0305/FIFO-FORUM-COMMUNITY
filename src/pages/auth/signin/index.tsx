@@ -20,6 +20,7 @@ import { LocalStorageKeys } from '@/consts/local-storage';
 import { useSignIn } from '@/hooks/mutate/auth/use-signin';
 import { setAccountState } from '@/stores/account';
 import { PATHS } from '@/utils/paths';
+import { get } from '@/utils/service';
 
 type FieldType = {
     username?: string;
@@ -62,6 +63,11 @@ const SignInPage: FC = () => {
                 localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN_KEY, entity.token);
                 localStorage.setItem(LocalStorageKeys.REFRESH_TOKEN_KEY, entity.refreshToken);
                 localStorage.setItem(LocalStorageKeys.USERNAME_KEY, payload.username);
+                get('/point/getall').then((res: any) => {
+                    if (res.status === 200) {
+                        localStorage.setItem(LocalStorageKeys.POINT, JSON.stringify(res.data.entity));
+                    }
+                });
 
                 navigate(PATHS.HOME);
             },
