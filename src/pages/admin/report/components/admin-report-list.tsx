@@ -1,12 +1,12 @@
 import type { PostReportParams } from '@/hooks/query/report/use-report-posts';
 import type { FeedbackStatus } from '@/types/feedback/feedback';
 import type { PostReport } from '@/types/report/report';
-import type { GetProp } from 'antd';
+import type { RadioChangeEvent } from 'antd';
 
-import { DeleteOutlined, EllipsisOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Checkbox, Dropdown, Empty, Flex, Input, Modal, Popover, Tag, Typography } from 'antd';
-import React, { useEffect } from 'react';
+import { Button, Dropdown, Empty, Flex, Input, Modal, Popover, Radio, Tag, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { IoIosRefresh } from 'react-icons/io';
 
 import { PostItem } from '@/components/post/post-item';
@@ -31,11 +31,12 @@ const AdminReportList = () => {
         perPage: DEFAULT_PAGE_SIZE,
     };
 
-    const [selectedStatus, setSelectedStatus] = React.useState<string[]>([]);
+    const [selectedStatus, setSelectedStatus] = React.useState<FeedbackStatus | null>(null);
     const [params, setParams] = React.useState<PostReportParams>(initialParams);
     const [search, setSearch] = React.useState<string>('');
     const [postId, setPostId] = React.useState<string | null>(null);
     const [report, setReport] = React.useState<PostReport | null>(null);
+    const [visible, setVisible] = useState(false);
 
     const queryClient = useQueryClient();
     const { success } = useMessage();
@@ -143,32 +144,33 @@ const AdminReportList = () => {
         },
     ];
 
-    const onChange: GetProp<typeof Checkbox.Group, 'onChange'> = checkedValues => {
-        setSelectedStatus(checkedValues as string[]);
+    const onChange = (e: RadioChangeEvent) => {
+        setSelectedStatus(e.target.value);
     };
 
     const content = (
         <Flex vertical justify="center" align="center" gap={12}>
             <Typography.Title level={5}>STATUS</Typography.Title>
-            <Checkbox.Group onChange={onChange}>
+            <Radio.Group onChange={onChange} value={selectedStatus}>
                 <Flex vertical gap={8}>
                     {optionsWithDisabled.map(option => (
-                        <Checkbox key={option.value} value={option.value}>
+                        <Radio key={option.value} value={option.value}>
                             {option.label}
-                        </Checkbox>
+                        </Radio>
                     ))}
                 </Flex>
-            </Checkbox.Group>
+            </Radio.Group>
 
             <Button
                 type="primary"
-                onClick={() =>
+                onClick={() => {
                     setParams({
                         ...params,
-                        reportPostStatusList: selectedStatus as FeedbackStatus[],
+                        reportPostStatusList: selectedStatus ? [selectedStatus] : undefined,
                         page: DEFAULT_PAGE,
-                    })
-                }
+                    });
+                    setVisible(false); // Close the dropdown after applying the filter
+                }}
             >
                 Apply
             </Button>
@@ -201,7 +203,13 @@ const AdminReportList = () => {
                 />
 
                 <Flex gap={8}>
-                    <Popover content={content} trigger="click" arrow={false}>
+                    <Popover
+                        content={content}
+                        trigger="click"
+                        arrow={false}
+                        visible={visible}
+                        onVisibleChange={setVisible}
+                    >
                         <Button icon={<FilterOutlined />}>Filter</Button>
                     </Popover>
 
@@ -331,5 +339,3 @@ const AdminReportList = () => {
         </AdminFeedbackWrapper>
     );
 };
-
-export default AdminReportList;

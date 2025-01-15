@@ -1,9 +1,10 @@
-import { request } from '@/apis/request';
-import { feedbackKeys } from '@/consts/factory/feedback';
-import { CreateFeedbackPayload, Feedback, FeedbackStatus } from '@/types/feedback/feedback';
-import { PaginationParams } from '@/types';
+import type { PaginationParams } from '@/types';
+import type { FeedbackStatus } from '@/types/feedback/feedback';
+import type { AccountReport, PostReport } from '@/types/report/report';
+
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { AccountReport, PostReport } from '@/types/report/report';
+
+import { request } from '@/apis/request';
 import { reportKeys } from '@/consts/factory/report';
 
 export type FeedbackListingParams = PaginationParams;

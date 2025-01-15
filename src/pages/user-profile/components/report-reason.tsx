@@ -1,4 +1,5 @@
-import { ReportAccountReasons } from '@/types/report/report';
+import type { ReportAccountReasons } from '@/types/report/report';
+
 import { Button, Flex, Form, Radio, Typography } from 'antd';
 import React from 'react';
 
@@ -35,32 +36,32 @@ const mapReportReasonDescription = (reason: ReportAccountReasons) => {
     }
 };
 
-const mapReportReasonTitle = (reason : ReportAccountReasons) => {
-     switch (reason) {
-         case 'HATE':
-             return 'Hate';
-         case 'ABUSE_AND_HARASSMENT':
-             return 'Abuse & Harassment';
-         case 'VIOLENT_SPEECH':
-             return 'Violent Speech';
-         case 'CHILD_SAFETY':
-             return 'Child Safety';
-         case 'PRIVACY':
-             return 'Privacy';
-         case 'SPAM':
-             return 'Spam';
-         case 'SUICIDE_OR_SELF_HARM':
-             return 'Suicide or self-harm';
-         case 'SENSITIVE_OR_DISTURBING_MEDIA':
-             return 'Sensitive or disturbing media';
-         case 'IMPERSONATION':
-             return 'Impersonation';
-         case 'VIOLENT_AND_HATEFUL_ENTITIES':
-             return 'Violent & hateful entities';
-         default:
-             return '';
-     }
-}
+const mapReportReasonTitle = (reason: ReportAccountReasons) => {
+    switch (reason) {
+        case 'HATE':
+            return 'Hate';
+        case 'ABUSE_AND_HARASSMENT':
+            return 'Abuse & Harassment';
+        case 'VIOLENT_SPEECH':
+            return 'Violent Speech';
+        case 'CHILD_SAFETY':
+            return 'Child Safety';
+        case 'PRIVACY':
+            return 'Privacy';
+        case 'SPAM':
+            return 'Spam';
+        case 'SUICIDE_OR_SELF_HARM':
+            return 'Suicide or self-harm';
+        case 'SENSITIVE_OR_DISTURBING_MEDIA':
+            return 'Sensitive or disturbing media';
+        case 'IMPERSONATION':
+            return 'Impersonation';
+        case 'VIOLENT_AND_HATEFUL_ENTITIES':
+            return 'Violent & hateful entities';
+        default:
+            return '';
+    }
+};
 
 const ReportReason = ({ reason, selectedReason, setSelectedReason }: ReportReasonProps) => {
     return (
