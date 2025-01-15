@@ -49,6 +49,7 @@ export const PageMenu = () => {
             key: 'explore',
             icon: <Icon component={() => <img src={ExploreSvg} alt="explore" />} />,
             label: 'Source Code & Download',
+            onClick: () => navigate(PATHS.EXPLORE),
         },
     ].filter(Boolean) as MenuItem[];
 
