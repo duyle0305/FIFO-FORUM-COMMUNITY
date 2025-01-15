@@ -53,7 +53,7 @@ const SignUpPage: FC = () => {
             address: '',
             gender: '',
             role: 'USER',
-            categoryList: [],
+            categoryList_ForStaff: [],
         };
 
         signup(req, {

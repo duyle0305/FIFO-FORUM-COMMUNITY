@@ -6,9 +6,8 @@ import type { ColumnsType } from 'antd/es/table';
 import type { FormProps } from 'antd/lib';
 
 import { DeleteOutlined, EditOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Badge, Button, Card, Flex, Form, Input, message, Modal, Select, Space, Table, Tag, Typography } from 'antd';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import { Button, Card, Flex, Form, Input, message, Modal, Select, Space, Table, Tag, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +23,7 @@ import { useCategoriesListing } from '@/hooks/query/category/use-category-listin
 import { useUsersListing } from '@/hooks/query/user/use-user-listing';
 import { useDebounce } from '@/hooks/use-debounce';
 import { PATHS } from '@/utils/paths';
-import { get, put } from '@/utils/service';
+import { put } from '@/utils/service';
 
 const { confirm } = Modal;
 
@@ -205,6 +204,9 @@ const AdminStaffPage = () => {
             username: values.username,
             password: values.password,
             confirmPassword: values.confirmPassword,
+            avatar: 'https://firebasestorage.googleapis.com/v0/b/image-description-detail.appspot.com/o/files%2Fz5864107407458_5df9a91f942a87874a58701fea121a3f.jpg?alt=media&token=00f9cd4e-2112-45b0-a250-300419033950',
+            coverImage:
+                'https://firebasestorage.googleapis.com/v0/b/image-description-detail.appspot.com/o/files%2FFIFO%20cover.8f4ed563.png?alt=media&token=c92815f3-cd45-4f5b-a71a-7f8f6e08ff65',
             address: '',
             gender: '',
             role: 'STAFF',
