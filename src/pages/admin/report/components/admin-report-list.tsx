@@ -339,3 +339,5 @@ const AdminReportList = () => {
         </AdminFeedbackWrapper>
     );
 };
+
+export default AdminReportList;
