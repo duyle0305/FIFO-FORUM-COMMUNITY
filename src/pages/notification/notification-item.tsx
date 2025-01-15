@@ -2,7 +2,7 @@ import type { Notification } from '@/types/notification';
 import type { FC } from 'react';
 
 import { css } from '@emotion/react';
-import { Avatar, Card, Flex, Tag, Typography } from 'antd';
+import { Avatar, Card, Flex, message, Tag, Typography } from 'antd';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,7 +42,17 @@ const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {
 
         if (response.status === 200) {
             if (notiParsed?.id && notiParsed?.entity === 'Post') {
-                navigate(PATHS.POST_DETAIL.replace(':id', notiParsed?.id));
+                const post = posts?.find(post => post?.postId === notiParsed?.id);
+
+                if (post) {
+                    if (post.status === 'HIDDEN') {
+                        message.error('The post was deleted');
+                    } else {
+                        navigate(PATHS.POST_DETAIL.replace(':id', notiParsed?.id));
+                    }
+                } else {
+                    message.error('The post was deleted');
+                }
             } else if (notiParsed?.id && notiParsed?.entity === 'Account') {
                 navigate(PATHS.USER_PROFILE.replace(':id', notiParsed?.id));
             } else if (notiParsed?.id && notiParsed?.entity === 'Report') {
@@ -62,7 +72,7 @@ const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {
                     )}
 
                     <div>
-                        <Avatar src={notification?.account?.avatar} />
+                        <Avatar src={notification?.avatar} />
                     </div>
                     {!notification.read && (
                         <Tag color="blue" css={unreadTagStyle}>
@@ -87,8 +97,9 @@ const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {
                             // ${
                             //     posts?.find(post => post?.postId === notiParsed?.id)?.account?.username
                             // }
-                            `
-                             reported on your post`}{' '}
+                            // `reported on your post`}{' '}
+                            ''}
+                        {''}
                         {notiParsed?.entity === 'Daily point' && 'You have received daily point'}-{' '}
                         {notification?.createdDate ? dayjs(notification?.createdDate).format(FULL_TIME_FORMAT) : ''}
                     </Typography.Text>

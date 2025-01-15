@@ -1,4 +1,4 @@
-import { Account } from '../account';
+import type { Account } from '../account';
 
 export interface Notification {
     notificationId: string;
@@ -8,4 +8,5 @@ export interface Notification {
     account: Account;
     read: boolean;
     commentId: string;
+    avatar: string;
 }
