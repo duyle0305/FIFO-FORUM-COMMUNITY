@@ -47,6 +47,9 @@ const SignUpPage: FC = () => {
             username: values.username,
             password: values.password,
             confirmPassword: values.confirmPassword,
+            avatar: 'https://firebasestorage.googleapis.com/v0/b/image-description-detail.appspot.com/o/files%2Fz5864107407458_5df9a91f942a87874a58701fea121a3f.jpg?alt=media&token=00f9cd4e-2112-45b0-a250-300419033950',
+            coverImage:
+                'https://firebasestorage.googleapis.com/v0/b/image-description-detail.appspot.com/o/files%2FFIFO%20cover.8f4ed563.png?alt=media&token=c92815f3-cd45-4f5b-a71a-7f8f6e08ff65',
             address: '',
             gender: '',
             role: 'USER',

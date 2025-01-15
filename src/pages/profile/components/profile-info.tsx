@@ -8,15 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { authKeys } from '@/consts/factory/auth';
-import { LocalStorageKeys } from '@/consts/local-storage';
 import { useUpdateProfile } from '@/hooks/mutate/profile/use-update-profile';
 import { useGetFollowers, useGetFollows } from '@/hooks/query/follow/use-follow-listing';
 import { useMessage } from '@/hooks/use-message';
 import { useUploadFile } from '@/hooks/use-upload-file';
 import { PATHS } from '@/utils/paths';
-
-import BackgroundPlaceholder from '../../../../src/assets/logos/FIFO cover.png';
-import AvatarPlaceholder from '../../../../src/assets/logos/FIFO logo.png';
 
 export const ProfileInfo = () => {
     const dispatch = useDispatch();
@@ -91,7 +87,7 @@ export const ProfileInfo = () => {
                             showUploadList={false}
                         >
                             <Image
-                                src={coverImage || accountInfo?.coverImage || BackgroundPlaceholder}
+                                src={coverImage || accountInfo?.coverImage}
                                 alt="logo"
                                 width="100%"
                                 // height={500}
@@ -111,7 +107,7 @@ export const ProfileInfo = () => {
                         </Upload>
                     ) : (
                         <Image
-                            src={coverImage || accountInfo?.coverImage || BackgroundPlaceholder}
+                            src={coverImage || accountInfo?.coverImage}
                             alt="logo"
                             width="100%"
                             height={260}
@@ -120,17 +116,13 @@ export const ProfileInfo = () => {
                     )}
                     <div style={{ position: 'absolute', top: 200, left: 20 }}>
                         {!isEdit ? (
-                            <Avatar
-                                shape="circle"
-                                size={136}
-                                src={avatar || accountInfo?.avatar || AvatarPlaceholder}
-                            />
+                            <Avatar shape="circle" size={136} src={avatar || accountInfo?.avatar} />
                         ) : (
                             <Upload showUploadList={false} accept="image/*" customRequest={uploadAvatar}>
                                 <Avatar
                                     shape="circle"
                                     size={136}
-                                    src={avatar || accountInfo?.avatar || AvatarPlaceholder}
+                                    src={avatar || accountInfo?.avatar}
                                     style={{
                                         cursor: 'pointer',
                                     }}

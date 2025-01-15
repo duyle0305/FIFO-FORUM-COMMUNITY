@@ -1,6 +1,9 @@
+import type { SignUpRequest } from '@/types/auth';
+import type { DefaultError, UseMutationOptions } from '@tanstack/react-query';
+
+import { useMutation } from '@tanstack/react-query';
+
 import axiosInstance from '@/apis/request';
-import { SignUpRequest } from '@/types/auth';
-import { DefaultError, useMutation, UseMutationOptions } from '@tanstack/react-query';
 
 export const useSignUp = (options: UseMutationOptions<boolean, DefaultError, SignUpRequest> = {}) => {
     const signIn = async (payload: SignUpRequest) => {
